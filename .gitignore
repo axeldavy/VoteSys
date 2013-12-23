@@ -8,5 +8,6 @@
 *.cmx
 *.cmxs
 *.cmxa
+votesys
 data/
 _build/
