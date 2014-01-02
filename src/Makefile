@@ -23,8 +23,7 @@ $(MAIN): $(MAIN).target
 	cp _build/$(MAIN).$(TARGET) $(MAIN)
 
 $(MAIN).target:
-	$(OCAMLBUILD) $(MAIN).$(TARGET)
-
+	$(OCAMLBUILD) -use-menhir $(MAIN).$(TARGET)
 
 clean:
 	ocamlbuild -classic-display -clean
