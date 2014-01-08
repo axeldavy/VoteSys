@@ -1,6 +1,7 @@
 open Format
 open Lexing
 open Ast
+open Master
 
 let file = ref ""
 
@@ -29,10 +30,11 @@ let () =
   try
     let review_list = Parser.file Lexer.token buf in
     close_in f;
+    Master.process review_list;
     eprintf "lecture reussi\n@?e";
     exit 0 
   with
     | Ast.Lexical_error c -> 
         eprintf "Erreur dans l'analyse lexicale: %s@." c;
         exit 1
-    | _ -> eprintf "erreur\n@?"; exit 1
+    | e -> eprintf "erreur: %s\n@?" (Printexc.to_string e); exit 1
