@@ -23,7 +23,7 @@ type review = { product_id : productid;
                 review_summary : reviewsummary;
                 review_text : reviewtext }
 
-type product = Product of producttitle * review list
+type product = Product of productid * review list
 type user = User of reviewuserid * review list
 
 
