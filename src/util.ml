@@ -23,7 +23,7 @@ let get_user_hashtbl review_list =
    let fill_hash_tbl review =
       let Review_user_id (user_id) = review.review_user_id in
 	 try
-	    let user_review_list = Hashtbl.find hashtbluser  in
+	    let user_review_list = Hashtbl.find hashtbluser user_id in
 	    Hashtbl.replace hashtbluser user_id (review::user_review_list)
 	 with
 	 | Not_found -> Hashtbl.add hashtbluser user_id [review]
