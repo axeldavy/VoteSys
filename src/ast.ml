@@ -24,7 +24,6 @@ type review = { product_id : productid;
                 review_text : reviewtext }
 
 type product = Product of productid * review list
-type user = User of reviewuserid * review list
 
 type analyseMethode = Simple | Helpfullness | Mode | Anciennete
 
