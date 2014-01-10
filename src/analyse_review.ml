@@ -1,7 +1,7 @@
 open Ast 
 
 let attribute_coeffs methode product_list user_hashtable =
-(* retourne une liste de (coef list)* product *)
+(* retourne une liste de (float list)* product *)
    match methode with 
    | Simple -> let get_coef_product_simple product =
 		  let Product(_,review_list) = product in 

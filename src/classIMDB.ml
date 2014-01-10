@@ -64,8 +64,8 @@ let rec meanList prods m c =
 	Entrée : m float le nombre minimum de reviews à avoir pour figurer dans le classement, prods (coef list * product) list
 	Sortie : (product * int) list triée selon les int*)
 let triIMDB prods m =
-  List.sort comp (meanList (eligible prods m) m globalMean prods);;
+  List.sort comp (meanList (eligible prods m) m (globalMean prods))
 
 
 let triNaif prods =
-  triIMDB prods 0. 0.;;
+  triIMDB prods 0.
