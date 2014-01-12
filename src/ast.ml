@@ -28,3 +28,5 @@ type product = Product of productid * review list
 type analyseMethode = Simple | Helpfullness | Mode | Anciennete
 
 exception Lexical_error of string
+
+exception No_review

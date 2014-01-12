@@ -3,12 +3,13 @@ open List
 
  (* moyenne usuelle avec coefficients des scores d'une liste de reviews
 	Entrée : rev review list et coef float list
-	Sortie : float*)
+	Sortie : float
+        leve l'exception No_review quand les listes sont vide où que la liste coef ne contient que des 0 *)
 let mean rev coef =
   let rec m rev coef acc n =
   match rev, coef with
-    h::t, h2::t2 -> let Review_score(s, _) = h.review_score in m t t2 (acc +. float_of_int s *. h2) (n +. 1.);
-  | [], [] -> acc /. n; in
+    h::t, h2::t2 -> let Review_score(s, _) = h.review_score in if h2 <> 0 then m t t2 (acc +. float_of_int s *. h2) (n +. h2) else m t t2 acc n;
+  | [], [] -> if n = 0. then raise No_review else acc /. n; in
   m rev coef 0. 0.;;
   
   (*Moyenne globale d'une liste de produits
