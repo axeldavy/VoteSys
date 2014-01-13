@@ -8,7 +8,7 @@ open List
 let mean rev coef =
   let rec m rev coef acc n =
   match rev, coef with
-    h::t, h2::t2 -> let Review_score(s) = h.review_score in if h2 <> 0 then m t t2 (acc +. s *. h2) (n +. h2) else m t t2 acc n;
+    h::t, h2::t2 -> let Review_score(s) = h.review_score in if h2 <> 0. then m t t2 (acc +. s *. h2) (n +. h2) else m t t2 acc n;
   | [], [] -> if n = 0. then raise No_review else acc /. n; in
   m rev coef 0. 0.;;
   
@@ -39,8 +39,8 @@ let meanIMDB rev coef m c =
 	Sortie : int*)
 let comp prod1 prod2 =
   let (_, mean1) = prod1 and (_, mean2) = prod2 in
-   if mean1 > mean2 then 1
-   else if mean1 < mean2 then -1
+   if mean1 > mean2 then -1
+   else if mean1 < mean2 then 1
        else 0;;
        
  (*Fonction de construction de la liste des produits ayant assez de reviews pour entrer dans le classement
