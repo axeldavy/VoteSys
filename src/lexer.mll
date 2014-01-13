@@ -44,8 +44,8 @@ rule token = parse
       { REVIEWPROFILENAME (Review_profile_name(s)) }
   | REVIEWHELPFULLNESSs ": " (integer as i1) '/' (integer as i2) '\n'
       { REVIEWHELPFULLNESS (Review_helpfulness(int_of_string(i1), int_of_string(i2)))}
-  | REVIEWSCOREs ": " (integer as i1) '.' (integer as i2) '\n'
-      { REVIEWSCORE (Review_score(int_of_string(i1), int_of_string(i2)))}
+  | REVIEWSCOREs ": " (float as f) '\n'
+      { REVIEWSCORE (Review_score(f))}
   | REVIEWTIMEs ": " (integer as i) '\n'
       { REVIEWTIME (Review_time(int_of_string(i)))}
   | REVIEWSUMMARYs ": " (string as s) '\n'

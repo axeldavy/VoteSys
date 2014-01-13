@@ -8,7 +8,7 @@ open List
 let mean rev coef =
   let rec m rev coef acc n =
   match rev, coef with
-    h::t, h2::t2 -> let Review_score(s, _) = h.review_score in if h2 <> 0 then m t t2 (acc +. float_of_int s *. h2) (n +. h2) else m t t2 acc n;
+    h::t, h2::t2 -> let Review_score(s) = h.review_score in if h2 <> 0 then m t t2 (acc +. s *. h2) (n +. h2) else m t t2 acc n;
   | [], [] -> if n = 0. then raise No_review else acc /. n; in
   m rev coef 0. 0.;;
   
