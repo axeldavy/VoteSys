@@ -16,7 +16,7 @@ type review = { product_id : productid;
                 product_title : producttitle;
                 product_price : productprice;
                 review_user_id : reviewuserid;
-                review_profile_name: reviewprofilename;
+                review_profile_name : reviewprofilename;
                 review_helpfull_ness : reviewhelpfullness;
                 review_score : reviewscore;
                 review_time : reviewtime;
@@ -27,6 +27,12 @@ type product = Product of productid * review list
 
 type analyseMethode = Simple | Helpfullness | Mode | Anciennete
 
+type minReviewsMethode = Quartile | Median | Mean
+
 exception Lexical_error of string
 
 exception No_review
+
+let twoMonth = 5184000;;
+
+let coefEarlyMonths = 0.1;;
