@@ -1,6 +1,8 @@
 OCAMLBUILD= ocamlbuild -no-links -classic-display \
-		-libs unix \
-		-tags debug,annot 
+		-libs unix,bigarray,gnuplot \
+		-cflags " -I /usr/lib/ocaml/gnuplot/"\
+		-lflags " -I /usr/lib/ocaml/gnuplot/"\
+		-tags debug,annot
 
 TARGET=native
 MAIN=votesys
