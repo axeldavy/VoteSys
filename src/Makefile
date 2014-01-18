@@ -1,6 +1,6 @@
 OCAMLBUILD= ocamlbuild -no-links -classic-display \
-		-libs unix,bigarray,gnuplot \
-		-cflags " -I /usr/lib/ocaml/gnuplot/"\
+		-libs graphics,unix,bigarray,gnuplot \
+		-cflags " -I /usr/lib/ocaml/gnuplot/ -I graphics.cmxa"\
 		-lflags " -I /usr/lib/ocaml/gnuplot/"\
 		-tags debug,annot
 

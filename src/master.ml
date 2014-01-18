@@ -3,7 +3,7 @@ open Analyse_review
 open ClassIMDB
 open Cut_graph
 open Cut_recom
-open Graphics
+open Graphic
 open Util
 open Format
 open List
@@ -17,4 +17,5 @@ let process review_list =
       let (p,n) = pn in
       Format.print_float n
    in
-   List.iter print_prod_mark (triNaif entry_list)
+   (*List.iter print_prod_mark (triNaif entry_list);*)
+   plot_distribution_notes review_list
