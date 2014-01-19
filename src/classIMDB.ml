@@ -63,7 +63,7 @@ let rec meanList prods m c =
 
  (*Retourne un classement type IMDB d'une liste de produits
 	Entrée : m float le nombre minimum de reviews à avoir pour figurer dans le classement, prods (coef list * product) list
-	Sortie : (product * int) list triée selon les int*)
+	Sortie : (product * float) list triée selon les float*)
 let triIMDB prods m =
   List.sort comp (meanList (eligible prods m) m (globalMean prods))
 
