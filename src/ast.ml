@@ -33,6 +33,10 @@ exception Lexical_error of string
 
 exception No_review
 
-let twoMonth = 5184000;;
+let twoMonths = 5184000;;
 
-let coefEarlyMonths = 0.1;;
+let twoWeeks = 1209600
+
+let nbMinReviews = 5
+
+let smallCoef= 0.1;;

@@ -2,6 +2,7 @@ open Ast
 open List
 open Hashtbl
 
+(********************************************** Anciennete des utilisateurs *************************************************)
 let comp_date rev1 rev2 =
   let Review_time(d1) = rev1.review_time and Review_time(d2) = rev2.review_time in
   if d1 > d2 then 1
@@ -18,9 +19,73 @@ let firstReview_hashtbl user_hashtbl =
   Hashtbl.iter fill_hashtbl user_hashtbl;
   hashtbl;;
 
-(*let attribute_coeffs_mode product_list user_hashtable =
-  failwith "TODO"*)
+let coeff_ancien product hashtbl =
+	let Product(_, rev) = product in
+	let rec coeflist rev hashtbl = 
+		match rev with
+		h::t -> let Review_time(time) = h.review_time and Review_user_id(userid) = h.review_user_id in 
+				let d = time - Hashtbl.find hashtbl userid in
+				if d < twoWeeks then smallCoef::(coeflist t hashtbl)
+				else 1.::(coeflist t hashtbl)
+		| [] -> []
+	in
+	((coeflist rev hashtbl), product)
 
+let attribute_coeffs_ancien product_list user_hashtbl =
+  let hashtbl = firstReview_hashtbl user_hashtbl in
+  let rec f product_list hashtbl =
+	match product_list with
+	h::t -> (coeff_ancien h hashtbl)::(f t hashtbl)
+	| [] -> []
+  in
+  (f product_list hashtbl)
+
+(************************************************* Effet de mode ***************************************************************)
+let coeff_mode product date =
+	let Product(_, rev) = product in
+	let rec coeflist rev date =
+		match rev with
+		h::t -> let Review_time(time) = h.review_time in
+				if (time - date) < twoMonths then smallCoef::(coeflist t date)
+				else 1.::(coeflist t date)
+		| [] -> []
+	in
+	((coeflist rev date), product) 
+
+let rec attribute_coeffs_mode product_list =
+	match product_list with
+	h::t -> let Product(_, rev) = h in
+			let prod = List.sort comp_date rev in
+			let Review_time(d) = (List.hd prod).review_time in
+			(coeff_mode h d)::(attribute_coeffs_mode t)
+	| [] -> []
+
+(************************************************** Utilité ****************************************************************)
+let coefpos x =
+	failwith "TODO"
+
+let coefneg x =
+	failwith "TODO"
+
+let coeff_util product =
+	let Product(_, rev) = product in
+	let rec coeflist rev =
+		match rev with
+		h::t -> let Review_helpfulness(pos, all) = h.review_helpfull_ness in
+				let d = all - 2 * pos in
+				if d < 0 then (coefpos pos)::(coeflist t)
+				else if d > 0 then (coefneg (all - pos))::(coeflist t)
+					else 1.::(coeflist t)
+		| [] -> []
+	in
+	((coeflist rev), product)
+
+let rec attribute_coeffs_helpfullness product_list =
+	match product_list with
+	h::t -> (coeff_util h)::(attribute_coeffs_helpfullness t)
+	| [] -> []
+
+(************************************************** Calcul des coefs *******************************************************)
 let attribute_coeffs methode product_list user_hashtable =
 (* retourne une liste de (float list)* product *)
    match methode with 
@@ -29,11 +94,11 @@ let attribute_coeffs methode product_list user_hashtable =
 		  List.map (fun _ -> 1.) review_list
 	       in
 	       List.map (fun p -> (get_coef_product_simple p,p)) product_list
-   | Helpfullness -> failwith "TODO"
-   | Mode -> failwith "TODO"
-   | Anciennete -> failwith "TODO"
+   | Helpfullness -> attribute_coeffs_helpfullness product_list
+   | Mode -> attribute_coeffs_mode product_list
+   | Anciennete -> attribute_coeffs_ancien product_list user_hashtable
 
-
+(************************************************* Calcul nombre reviews min *************************************************)
 
 let comp_nbreviews prod1 prod2 =
   let Product(_, rev1) = prod1 and Product(_, rev2) = prod2 in
