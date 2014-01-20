@@ -108,24 +108,38 @@ let min_reviews_quartile product_list_non_sorted =
   let product_list= List.sort comp_nbreviews product_list_non_sorted in
   let p = List.nth product_list ((List.length product_list) / 4) in
   let Product(_, rev) = p in
-  List.length rev
+  let n = List.length rev
+  in
+  if (verbose)
+  then Format.printf "Quartile method: %d review" n;
+  n
 
 let min_reviews_median product_list_non_sorted =
   let product_list = List.sort comp_nbreviews product_list_non_sorted in
   let p = List.nth product_list ((List.length product_list) / 2) in
   let Product(_, rev) = p in
-  List.length rev
+  let n = List.length rev
+  in
+  if (verbose)
+  then Format.printf "Median method: %d review" n;
+  n
 
 let mean_nbreviews product_list =
   let rec mean prods acc n =
     match prods with
       h::t -> let Product(_, rev) = h in mean t (acc + List.length rev) (n + 1)
     | [] -> if n = 0 then raise No_review else acc / n in
-  mean product_list 0 0
+  let n = mean product_list 0 0
+  in
+  if (verbose)
+  then Format.printf "Mean method: %d review" n;
+  n
 
 let define_min_reviews methode product_list =
+  let n =
   match methode with
   | Quartile -> min_reviews_quartile product_list
   | Median -> min_reviews_median product_list
   | Mean -> mean_nbreviews product_list
-  | _ -> failwith "TODO"
+  | _ -> assert false
+  in float_of_int n
