@@ -111,7 +111,7 @@ let min_reviews_quartile product_list_non_sorted =
   let n = List.length rev
   in
   if (verbose)
-  then Format.printf "Quartile method: %d review" n;
+  then Format.printf "Quartile method: %d review@." n;
   n
 
 let min_reviews_median product_list_non_sorted =
@@ -121,7 +121,7 @@ let min_reviews_median product_list_non_sorted =
   let n = List.length rev
   in
   if (verbose)
-  then Format.printf "Median method: %d review" n;
+  then Format.printf "Median method: %d review@." n;
   n
 
 let mean_nbreviews product_list =
@@ -132,7 +132,7 @@ let mean_nbreviews product_list =
   let n = mean product_list 0 0
   in
   if (verbose)
-  then Format.printf "Mean method: %d review" n;
+  then Format.printf "Mean method: %d review@." n;
   n
 
 let define_min_reviews methode product_list =
