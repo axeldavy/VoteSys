@@ -1,7 +1,7 @@
 OCAMLBUILD= ocamlbuild -no-links -classic-display \
 		-libs graphics,unix,bigarray,gnuplot \
-		-cflags " -I /usr/lib/ocaml/gnuplot/ -I graphics.cmxa"\
-		-lflags " -I /usr/lib/ocaml/gnuplot/"\
+		-cflags " -I /usr/lib/ocaml/gnuplot/ -I /usr/local/lib/ocaml/3.11.2/gnuplot/ -I graphics.cmxa"\
+		-lflags " -I /usr/lib/ocaml/gnuplot/ -I /usr/local/lib/ocaml/3.11.2/gnuplot/ -I graphics.cmxa"\
 		-tags debug,annot
 
 TARGET=native

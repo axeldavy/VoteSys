@@ -25,7 +25,7 @@ let plot_distribution_notes review_list =
    Gnuplot.title gphandle "Distribution des notes";
    Gnuplot.xlabel gphandle "notes";
    Gnuplot.ylabel gphandle "proportion";
-   (*Gnuplot.color gphandle (Graphics.rgb 120 120 120);*)
+   Gnuplot.color gphandle (Graphics.rgb 120 120 120);
    Gnuplot.env gphandle ~xaxis:true (-0.5) 5.5 ~yaxis:true 0. 1.;
    Gnuplot.color gphandle Graphics.red;
    Gnuplot.Array.xy gphandle ~style:Gnuplot.Points x y;
