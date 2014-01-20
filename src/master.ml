@@ -14,8 +14,8 @@ let print_classement classement =
       let (p,score) = elem in
       score +. acc
    in
-   let mean = List.fold_right calc_mean classement 0. in
-   Format.printf "global mean: %0.3f@." mean;
+   let mean = (List.fold_right calc_mean classement 0.) /. (float_of_int (List.length(classement))) in
+   Format.printf "mean products notes: %0.3f@." mean;
    for i = 0 to 10 do
       let (Product (pr,rl),score) = List.nth classement i in
       let p = List.hd(rl) in
