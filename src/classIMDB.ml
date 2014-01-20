@@ -10,6 +10,15 @@ let somme list =
 	in
 	f list 0.
 
+(* moyenne usuelle *)
+let mean_simple rev =
+	let rec m rev acc n =
+		match rev with
+		h::t -> let Review_score(s) = h.review_score in m t (acc +. s) (n + 1)
+		| [] -> if n = 0 then raise No_review else acc /. (float_of_int n)
+	in
+	m rev 0. 0
+
  (* moyenne usuelle avec coefficients des scores d'une liste de reviews
 	Entrée : rev review list et coef float list
 	Sortie : float
@@ -51,6 +60,21 @@ let comp prod1 prod2 =
    if mean1 > mean2 then -1
    else if mean1 < mean2 then 1
        else 0;;
+
+let meanReview prods =
+	let rec m prods acc n =
+		match prods with
+		h::t -> let (_, p) = h in let Product(_, rev) = p in
+				let rec mrev rev acc2 n2 =
+					match rev with
+					h2::t2 -> let Review_score(s) = h2.review_score in mrev t2 (acc2 +. s) (n2 +. 1.)
+					| [] -> if n2 = 0. then raise No_review else (acc2, n2)
+				in
+				let (acc2, n2) = mrev rev 0. 0. in
+				m t (acc +. acc2) (n +. n2)
+		| [] -> if n = 0. then raise No_review else  acc /. n
+	in
+	m prods 0. 0.
        
  (*Fonction de construction de la liste des produits ayant assez de reviews pour entrer dans le classement
 	Entrée : prods (float list * product) list, m int le nombre de reviews nécessaires
@@ -66,6 +90,7 @@ let eligible prods m =
   in
   if (verbose)
   then Format.printf "il reste %d produits@." (List.length l);
+  Format.printf "moyenne des reviews : %f@." (meanReview l);
   l
 
  (*Transforme une (float list * product) list en (product, int) list*)
@@ -76,6 +101,14 @@ let rec meanList prods m c =
 	    (p, meanIMDB rev coef m c)::meanList t m c
   | [] -> [];;
 
+(*Transforme une (float list * product) list en (product, int) list (sans tenir compte de la float list)*)
+let rec simpleMeanList prods =
+	match prods with
+	h::t -> let (coef, p) = h in
+			let Product(_, rev) = p in
+		(p, mean_simple rev)::simpleMeanList t
+	| [] -> []
+	
  (*Retourne un classement type IMDB d'une liste de produits
 	Entrée : m float le nombre minimum de reviews à avoir pour figurer dans le classement, prods (coef list * product) list
 	Sortie : (product * float) list triée selon les float*)
@@ -84,6 +117,8 @@ let triIMDB prods m =
   then Format.printf "triIMDB m = %0.2f @." m; 
   List.sort comp (meanList (eligible prods m) m (globalMean prods))
 
+let triSimple prods =
+	List.sort comp (simpleMeanList prods)
 
 let triNaif prods =
   triIMDB prods 0.
