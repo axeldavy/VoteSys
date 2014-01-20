@@ -51,7 +51,13 @@ let eligible prods m =
     match prods with
       h::t -> let (rev, _) = h in if float_of_int (List.length rev) <= m then e t m acc else h::e t m acc
     | [] -> acc; in
-  e prods m [];;
+  if (verbose)
+  then Format.printf "tri des produits avec au moins %f reviews: %d produits a trier@." m (List.length prods); 
+  let l = e prods m []
+  in
+  if (verbose)
+  then Format.printf "il reste %d produits@." (List.length l);
+  l
 
  (*Transforme une (float list * product) list en (product, int) list*)
 let rec meanList prods m c = 
@@ -65,6 +71,8 @@ let rec meanList prods m c =
 	Entrée : m float le nombre minimum de reviews à avoir pour figurer dans le classement, prods (coef list * product) list
 	Sortie : (product * float) list triée selon les float*)
 let triIMDB prods m =
+  if (verbose)
+  then Format.printf "triIMDB m = %0.2f @." m; 
   List.sort comp (meanList (eligible prods m) m (globalMean prods))
 
 

@@ -30,8 +30,9 @@ let () =
   try
     let review_list = Parser.file Lexer.token buf in
     close_in f;
+    if (verbose)
+    then Format.printf "ouverture %s reussie" !file;
     Master.process review_list;
-    eprintf "lecture reussi\n@?e";
     exit 0 
   with
     | Ast.Lexical_error c -> 
