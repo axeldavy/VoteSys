@@ -1,6 +1,15 @@
 open Ast
 open List
 
+(*somme des termes d'une liste*)
+let somme list =
+	let rec f list acc =
+		match list with
+		h::t -> (f t (acc +. h))
+		| [] -> acc
+	in
+	f list 0.
+
  (* moyenne usuelle avec coefficients des scores d'une liste de reviews
 	Entrée : rev review list et coef float list
 	Sortie : float
@@ -25,13 +34,13 @@ let globalMean prods =
  (*moyenne IMDB des scores d'une liste de reviews (concernant un produit) selon la formule :
    (Rv + cm)/(v + m) où
     R est la moyenne des score de la liste,
-    v est le nombre de reviews
+    v est le nombre de reviews (la somme de leurs coefficients)
     c la note moyenne globale des produits
     m le nombre minimum de reviews à avoir pour figurer dans le classement
     Entrée : rev review list, coef float list, m float, c float
     Sortie : float*)
 let meanIMDB rev coef m c =
-  let v = float_of_int (List.length rev) in
+  let v = somme coef in
   (v *. mean rev coef +. m *. c) /. (m +. v);;
 
  (*Fonction de comparaison de deux produits en fonction de leur moyenne
@@ -47,13 +56,13 @@ let comp prod1 prod2 =
 	Entrée : prods (float list * product) list, m int le nombre de reviews nécessaires
 	Sortie : (float list * product) list*)
 let eligible prods m = 
-  let rec e prods m acc =
+  let rec e prods m =
     match prods with
-      h::t -> let (rev, _) = h in if float_of_int (List.length rev) <= m then e t m acc else h::e t m acc
-    | [] -> acc; in
+      h::t -> let (rev, _) = h in if (somme rev) <= m then e t m  else h::e t m
+    | [] -> []; in
   if (verbose)
   then Format.printf "tri des produits avec au moins %f reviews: %d produits a trier@." m (List.length prods); 
-  let l = e prods m []
+  let l = e prods m
   in
   if (verbose)
   then Format.printf "il reste %d produits@." (List.length l);

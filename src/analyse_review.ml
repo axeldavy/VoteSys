@@ -62,20 +62,17 @@ let rec attribute_coeffs_mode product_list =
 
 (************************************************** Utilité ****************************************************************)
 let coefpos x =
-	failwith "TODO"
+	(float_of_int (1 + x)) /. 2.
 
 let coefneg x =
-	failwith "TODO"
+	2. /. (float_of_int (1 + x))
 
 let coeff_util product =
 	let Product(_, rev) = product in
 	let rec coeflist rev =
 		match rev with
 		h::t -> let Review_helpfulness(pos, all) = h.review_helpfull_ness in
-				let d = all - 2 * pos in
-				if d < 0 then (coefpos pos)::(coeflist t)
-				else if d > 0 then (coefneg (all - pos))::(coeflist t)
-					else 1.::(coeflist t)
+				((coefpos pos) *. (coefneg (all - pos)))::(coeflist t)
 		| [] -> []
 	in
 	((coeflist rev), product)
