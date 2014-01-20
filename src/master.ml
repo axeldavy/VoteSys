@@ -25,20 +25,20 @@ let print_classement classement =
    done;
    ()
 
-let process_2 review_list entry_list product_list fname =
+let process_2 review_list entry_list fname =
    let naif = triNaif entry_list in
    if (verbose)
    then print_classement naif;
    
-   let imdbquartile = triIMDB entry_list (define_min_reviews Quartile product_list) in
+   let imdbquartile = triIMDB entry_list (define_min_reviews Quartile entry_list) in
    if (verbose)
    then print_classement imdbquartile;
    
-   let imdbmedian = triIMDB entry_list (define_min_reviews Median product_list) in
+   let imdbmedian = triIMDB entry_list (define_min_reviews Median entry_list) in
    if (verbose)
    then print_classement imdbmedian;
    
-   let imdbmean = triIMDB entry_list (define_min_reviews Mean product_list) in
+   let imdbmean = triIMDB entry_list (define_min_reviews Mean entry_list) in
    if (verbose)
    then print_classement imdbmean;
    
@@ -51,20 +51,20 @@ let process review_list =
    let entry_list_simple = Analyse_review.attribute_coeffs Simple product_list userhashtbl in
    if (verbose) 
    then Format.printf "Coeffs: Simple @.";
-   process_2 review_list entry_list_simple product_list "means_simple";
+   process_2 review_list entry_list_simple "means_simple";
    
    let entry_list_mode = Analyse_review.attribute_coeffs Mode product_list userhashtbl in
    if (verbose) 
    then Format.printf "@.Coeffs: Mode @.";
-   process_2 review_list entry_list_mode product_list "means_mode";
+   process_2 review_list entry_list_mode "means_mode";
    
    let entry_list_helpfullness = Analyse_review.attribute_coeffs Helpfullness product_list userhashtbl in
    if (verbose) 
    then Format.printf "@.Coeffs: Helpfullness @.";
-   process_2 review_list entry_list_helpfullness product_list "means_helpfullness";
+   process_2 review_list entry_list_helpfullness "means_helpfullness";
    
    let entry_list_anciennete = Analyse_review.attribute_coeffs Anciennete product_list userhashtbl in
    if (verbose) 
    then Format.printf "@.Coeffs: Anciennete @.";
-   process_2 review_list entry_list_anciennete product_list "means_anciennete";
+   process_2 review_list entry_list_anciennete "means_anciennete";
 

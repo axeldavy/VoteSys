@@ -10,4 +10,5 @@
 *.cmxa
 votesys
 data/
+rapport/
 _build/
