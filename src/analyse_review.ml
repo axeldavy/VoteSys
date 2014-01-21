@@ -63,10 +63,10 @@ let rec attribute_coeffs_mode product_list =
     
 (************************************************** Utilité ****************************************************************)
 let coefpos x =
-  (float_of_int (1 + x)) /. 2.
+  (float_of_int (2 + x))
     
 let coefneg x =
-  2. /. (float_of_int (1 + x))
+  1. /. (float_of_int (2 + x))
     
 let coeff_util product =
   let Product(_, rev) = product in
